@@ -290,12 +290,19 @@ export function JsonLd({
 }: {
   data: Record<string, unknown> | Record<string, unknown>[];
 }) {
+  const schemas = Array.isArray(data) ? data : [data];
+
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify(data, null, 2),
-      }}
-    />
+    <>
+      {schemas.map((schema, index) => (
+        <script
+          key={`jsonld-${index}`}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(schema, null, 2),
+          }}
+        />
+      ))}
+    </>
   );
 }

@@ -79,9 +79,9 @@ const nextConfig: NextConfig = {
   /* تنظیمات بهینه‌سازی */
   compress: true,
 
-  /* محدودیت اندازه بدنه درخواست */
-  serverRuntimeConfig: {
-    maxBodySize: "10mb",
+  /* Experimental features */
+  experimental: {
+    optimizePackageImports: ["lucide-react"],
   },
 };
 

@@ -3,7 +3,7 @@
 import { CategoryCard } from "@/components/CategoryCard";
 import { LocationSelector } from "@/components/LocationSelector";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 
 interface Category {
   id: number;
@@ -12,7 +12,7 @@ interface Category {
   sort: number;
 }
 
-export default function SearchPage() {
+function SearchPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const step = searchParams.get("step") || "1";
@@ -159,4 +159,18 @@ export default function SearchPage() {
   }
 
   return null;
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          در حال بارگذاری...
+        </div>
+      }
+    >
+      <SearchPageContent />
+    </Suspense>
+  );
 }

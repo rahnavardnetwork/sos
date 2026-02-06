@@ -2,7 +2,7 @@
 
 import { ProviderCard } from "@/components/ProviderCard";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 
 interface Provider {
   id: string;
@@ -22,7 +22,7 @@ interface Provider {
   response_speed?: string;
 }
 
-export default function ResultsPage() {
+function ResultsPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [providers, setProviders] = useState<Provider[]>([]);
@@ -91,5 +91,19 @@ export default function ResultsPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function ResultsPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          در حال بارگذاری...
+        </div>
+      }
+    >
+      <ResultsPageContent />
+    </Suspense>
   );
 }
