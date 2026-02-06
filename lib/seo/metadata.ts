@@ -23,7 +23,7 @@ export const SITE_CONFIG = {
   },
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://rahnavard.org",
   logo: "/images/logo.png",
-  image: "/images/og-image.jpg",
+  image: "/images/meta.jpg",
   keywords: [
     ...SEO_KEYWORDS.primary.persian,
     ...SEO_KEYWORDS.primary.english,
