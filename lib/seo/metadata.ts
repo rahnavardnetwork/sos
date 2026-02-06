@@ -135,6 +135,22 @@ export function generateMetadata(options: MetadataOptions = {}): Metadata {
     verification: {
       google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
     },
+    icons: {
+      icon: [
+        { url: "/images/logo.webp", sizes: "any" },
+        { url: "/images/logo.webp", sizes: "32x32", type: "image/webp" },
+        { url: "/images/logo.webp", sizes: "16x16", type: "image/webp" },
+      ],
+      apple: [
+        { url: "/images/logo.webp", sizes: "180x180", type: "image/webp" },
+      ],
+      other: [
+        {
+          rel: "mask-icon",
+          url: "/images/logo.webp",
+        },
+      ],
+    },
   };
 
   return metadata;
