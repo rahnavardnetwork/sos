@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 type FormStep =
   | "type"
@@ -201,7 +201,7 @@ export default function ProviderRegistrationForm({
     return validationErrors.length === 0;
   };
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     if (validateStep(currentStep)) {
       const currentIndex = steps.findIndex((s) => s.id === currentStep);
       if (currentIndex < steps.length - 1) {
@@ -209,18 +209,18 @@ export default function ProviderRegistrationForm({
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
     }
-  };
+  }, [currentStep, formData]);
 
-  const handleBack = () => {
+  const handleBack = useCallback(() => {
     const currentIndex = steps.findIndex((s) => s.id === currentStep);
     if (currentIndex > 0) {
       setCurrentStep(steps[currentIndex - 1].id);
       setErrors([]);
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
-  };
+  }, [currentStep]);
 
-  const handleSubmit = async () => {
+  const handleSubmit = useCallback(async () => {
     if (!validateStep("consent")) return;
 
     setIsSubmitting(true);
@@ -260,7 +260,7 @@ export default function ProviderRegistrationForm({
     } finally {
       setIsSubmitting(false);
     }
-  };
+  }, [currentStep, formData]);
 
   const currentStepIndex = steps.findIndex((s) => s.id === currentStep);
   const progress = ((currentStepIndex + 1) / steps.length) * 100;
@@ -288,7 +288,14 @@ export default function ProviderRegistrationForm({
       onNext: currentStepIndex < steps.length - 1 ? handleNext : handleSubmit,
       onBack: handleBack,
     });
-  }, [currentStepIndex, onNavigationHandlersChange, steps.length]);
+  }, [
+    currentStepIndex,
+    onNavigationHandlersChange,
+    steps.length,
+    handleNext,
+    handleBack,
+    handleSubmit,
+  ]);
 
   if (currentStep === "success") {
     return (
