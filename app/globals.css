@@ -1,26 +1,121 @@
 @import "tailwindcss";
 
+/* فونت‌های فارسی - ایران یکان */
+@font-face {
+  font-family: "IranYekan";
+  src: url("/fonts/Qs_Iranyekan.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: "IranYekan";
+  src: url("/fonts/Qs_Iranyekan thin.ttf") format("truetype");
+  font-weight: 100;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: "IranYekan";
+  src: url("/fonts/Qs_Iranyekan light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: "IranYekan";
+  src: url("/fonts/Qs_Iranyekan medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: "IranYekan";
+  src: url("/fonts/Qs_Iranyekan bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: "IranYekan";
+  src: url("/fonts/Qs_Iranyekan extrabold.ttf") format("truetype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: "IranYekan";
+  src: url("/fonts/Qs_Iranyekan black.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: "IranYekan";
+  src: url("/fonts/Qs_Iranyekan extrablack.ttf") format("truetype");
+  font-weight: 950;
+  font-style: normal;
+  font-display: block;
+}
+
+/* فونت‌های لاتین - Space Grotesk */
+@font-face {
+  font-family: "SpaceGrotesk";
+  src: url("/fonts/SpaceGrotesk-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: "SpaceGrotesk";
+  src: url("/fonts/SpaceGrotesk-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: "SpaceGrotesk";
+  src: url("/fonts/SpaceGrotesk-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: "SpaceGrotesk";
+  src: url("/fonts/SpaceGrotesk-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: "SpaceGrotesk";
+  src: url("/fonts/SpaceGrotesk-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: block;
+}
+
 :root {
-  --background: #ffffff;
+  --background: #dbe7f8;
   --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --second: #1a306e;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "IranYekan", Arial, sans-serif !important;
 }
+
+

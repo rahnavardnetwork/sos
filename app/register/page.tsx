@@ -1,0 +1,50 @@
+"use client";
+
+import ProviderRegistrationForm from "@/components/forms/ProviderRegistrationForm";
+import NavbarForm from "@/components/navigation/NavbarForm";
+import Header from "@/components/general/Header";
+import { useState } from "react";
+
+export default function RegisterPage() {
+  const [formState, setFormState] = useState<{
+    isSuccess: boolean;
+    currentStep: number;
+    totalSteps: number;
+    canGoBack: boolean;
+    isSubmitting: boolean;
+  }>({
+    isSuccess: false,
+    currentStep: 0,
+    totalSteps: 7,
+    canGoBack: false,
+    isSubmitting: false,
+  });
+
+  const [navigationHandlers, setNavigationHandlers] = useState<{
+    onNext: () => void;
+    onBack: () => void;
+  }>({
+    onNext: () => {},
+    onBack: () => {},
+  });
+
+  return (
+    <>
+      <Header />
+      {!formState.isSuccess && (
+        <NavbarForm
+          onNext={navigationHandlers.onNext}
+          onBack={navigationHandlers.onBack}
+          canGoBack={formState.canGoBack}
+          canGoNext={formState.currentStep < formState.totalSteps - 1}
+          isLastStep={formState.currentStep === formState.totalSteps - 1}
+          isSubmitting={formState.isSubmitting}
+        />
+      )}
+      <ProviderRegistrationForm
+        onStateChange={setFormState}
+        onNavigationHandlersChange={setNavigationHandlers}
+      />
+    </>
+  );
+}

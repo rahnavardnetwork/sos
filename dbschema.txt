@@ -1,0 +1,408 @@
+-- ============================================================================
+-- COMPLETE DATABASE SCHEMA FOR PROVIDER REGISTRATION SYSTEM
+-- ============================================================================
+
+-- Drop existing tables if needed (be careful in production!)
+-- DROP TABLE IF EXISTS custom_category_request CASCADE;
+-- DROP TABLE IF EXISTS provider_category CASCADE;
+-- DROP TABLE IF EXISTS service_provider CASCADE;
+-- DROP TABLE IF EXISTS service_category CASCADE;
+
+-- ============================================================================
+-- 1. SERVICE CATEGORIES TABLE
+-- ============================================================================
+
+CREATE TABLE service_category (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL UNIQUE,
+  name_english VARCHAR(100),
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- Insert all categories from the form
+INSERT INTO service_category (name, name_english) VALUES
+('دارو و نسخه', 'Medicine and Prescription'),
+('کمک پزشکی فوری', 'Emergency Medical Aid'),
+('مشاوره پزشکی', 'Medical Consultation'),
+('سلامت روان و روان‌شناسی', 'Mental Health and Psychology'),
+('حمایت حقوقی', 'Legal Support'),
+('پناهگاه و اسکان امن', 'Shelter and Safe Housing'),
+('حمل‌ونقل و انتقال امن', 'Safe Transport and Transfer'),
+('کمک مالی اضطراری', 'Emergency Financial Aid'),
+('جایجایی اضطراری', 'Emergency Relocation'),
+('اطلاعات و راستی‌آزمایی', 'Information and Fact-checking'),
+('حمایت از افراد آسیب‌پذیر', 'Support for Vulnerable Individuals'),
+('حمایت از خانواده‌های آسیب‌دیده', 'Support for Affected Families'),
+('رسانه / تلویزیون مردم', 'Media / People\'s Television'),
+('ارسال کالا به ایران', 'Sending Goods to Iran'),
+('غذا و اقلام ضروری', 'Food and Essential Items'),
+('ارتباطات امن', 'Secure Communications'),
+('امنیت دیجیتال', 'Digital Security');
+
+-- ============================================================================
+-- 2. SERVICE PROVIDER TABLE
+-- ============================================================================
+
+CREATE TABLE service_provider (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  
+  -- Basic Information
+  provider_type VARCHAR(20) NOT NULL CHECK (provider_type IN ('individual', 'organization')),
+  logo_url TEXT,
+  name VARCHAR(200) NOT NULL,
+  description_persian TEXT NOT NULL,
+  description_english TEXT,
+  
+  -- Location
+  province VARCHAR(100),
+  city VARCHAR(100),
+  online_services BOOLEAN DEFAULT FALSE,
+  
+  -- Response Details
+  response_speed VARCHAR(20) CHECK (response_speed IN ('asap', 'scheduled', 'day', 'hour', 'immediate')),
+  access_type VARCHAR(20) CHECK (access_type IN ('appointment', 'walk-in', 'online')),
+  
+  -- Contact Information
+  telegram VARCHAR(100),
+  signal VARCHAR(50),
+  whatsapp VARCHAR(50),
+  phone VARCHAR(50),
+  email VARCHAR(150),
+  social_link TEXT NOT NULL, -- For verification (Instagram/LinkedIn/Twitter)
+  
+  -- Status and Verification
+  status VARCHAR(20) DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'rejected', 'suspended')),
+  verified BOOLEAN DEFAULT FALSE,
+  verification_notes TEXT,
+  rejection_reason TEXT,
+  
+  -- Consent
+  consent_direct_contact BOOLEAN DEFAULT FALSE NOT NULL,
+  consent_terms BOOLEAN DEFAULT FALSE NOT NULL,
+  
+  -- Timestamps
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW(),
+  approved_at TIMESTAMP,
+  last_active_at TIMESTAMP,
+  
+  -- Constraints
+  CONSTRAINT valid_contact_info CHECK (
+    telegram IS NOT NULL OR 
+    signal IS NOT NULL OR 
+    whatsapp IS NOT NULL OR 
+    phone IS NOT NULL OR 
+    email IS NOT NULL
+  ),
+  CONSTRAINT valid_consent CHECK (
+    consent_direct_contact = TRUE AND consent_terms = TRUE
+  )
+);
+
+-- ============================================================================
+-- 3. PROVIDER-CATEGORY JUNCTION TABLE (Many-to-Many)
+-- ============================================================================
+
+CREATE TABLE provider_category (
+  id SERIAL PRIMARY KEY,
+  provider_id UUID NOT NULL REFERENCES service_provider(id) ON DELETE CASCADE,
+  category_id INT NOT NULL REFERENCES service_category(id) ON DELETE CASCADE,
+  created_at TIMESTAMP DEFAULT NOW(),
+  
+  -- Ensure unique provider-category combinations
+  UNIQUE(provider_id, category_id)
+);
+
+-- ============================================================================
+-- 4. CUSTOM CATEGORY REQUESTS TABLE
+-- ============================================================================
+
+CREATE TABLE custom_category_request (
+  id SERIAL PRIMARY KEY,
+  provider_id UUID NOT NULL REFERENCES service_provider(id) ON DELETE CASCADE,
+  requested_category VARCHAR(100) NOT NULL,
+  requested_category_english VARCHAR(100),
+  status VARCHAR(20) DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'rejected')),
+  created_at TIMESTAMP DEFAULT NOW(),
+  reviewed_at TIMESTAMP,
+  reviewed_by UUID, -- Could reference an admin user table
+  notes TEXT,
+  
+  -- If approved, store the created category ID
+  created_category_id INT REFERENCES service_category(id)
+);
+
+-- ============================================================================
+-- 5. PROVIDER REVIEWS/RATINGS TABLE (Optional - for future use)
+-- ============================================================================
+
+CREATE TABLE provider_review (
+  id SERIAL PRIMARY KEY,
+  provider_id UUID NOT NULL REFERENCES service_provider(id) ON DELETE CASCADE,
+  user_id UUID, -- Could reference users table
+  rating INT CHECK (rating BETWEEN 1 AND 5),
+  comment TEXT,
+  helpful_count INT DEFAULT 0,
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
+);
+
+-- ============================================================================
+-- 6. PROVIDER ACTIVITY LOG (Optional - for tracking)
+-- ============================================================================
+
+CREATE TABLE provider_activity_log (
+  id SERIAL PRIMARY KEY,
+  provider_id UUID NOT NULL REFERENCES service_provider(id) ON DELETE CASCADE,
+  activity_type VARCHAR(50) NOT NULL, -- 'viewed', 'contacted', 'updated', etc.
+  ip_address VARCHAR(45),
+  user_agent TEXT,
+  metadata JSONB, -- Store additional data as JSON
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- ============================================================================
+-- 7. INDEXES FOR PERFORMANCE
+-- ============================================================================
+
+-- Service Provider Indexes
+CREATE INDEX idx_provider_status ON service_provider(status);
+CREATE INDEX idx_provider_verified ON service_provider(verified);
+CREATE INDEX idx_provider_created_at ON service_provider(created_at DESC);
+CREATE INDEX idx_provider_province ON service_provider(province);
+CREATE INDEX idx_provider_city ON service_provider(city);
+CREATE INDEX idx_provider_type ON service_provider(provider_type);
+CREATE INDEX idx_provider_online_services ON service_provider(online_services);
+CREATE INDEX idx_provider_status_verified ON service_provider(status, verified);
+
+-- Provider-Category Indexes
+CREATE INDEX idx_provider_category_provider ON provider_category(provider_id);
+CREATE INDEX idx_provider_category_category ON provider_category(category_id);
+CREATE INDEX idx_provider_category_composite ON provider_category(category_id, provider_id);
+
+-- Category Indexes
+CREATE INDEX idx_category_name ON service_category(name);
+
+-- Custom Category Request Indexes
+CREATE INDEX idx_custom_category_status ON custom_category_request(status);
+CREATE INDEX idx_custom_category_provider ON custom_category_request(provider_id);
+
+-- Review Indexes
+CREATE INDEX idx_review_provider ON provider_review(provider_id);
+CREATE INDEX idx_review_rating ON provider_review(rating);
+CREATE INDEX idx_review_created ON provider_review(created_at DESC);
+
+-- Activity Log Indexes
+CREATE INDEX idx_activity_provider ON provider_activity_log(provider_id);
+CREATE INDEX idx_activity_type ON provider_activity_log(activity_type);
+CREATE INDEX idx_activity_created ON provider_activity_log(created_at DESC);
+
+-- ============================================================================
+-- 8. FUNCTIONS AND TRIGGERS
+-- ============================================================================
+
+-- Function to update updated_at timestamp
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+-- Trigger for service_provider table
+CREATE TRIGGER update_service_provider_updated_at 
+  BEFORE UPDATE ON service_provider
+  FOR EACH ROW
+  EXECUTE FUNCTION update_updated_at_column();
+
+-- Trigger for provider_review table
+CREATE TRIGGER update_provider_review_updated_at 
+  BEFORE UPDATE ON provider_review
+  FOR EACH ROW
+  EXECUTE FUNCTION update_updated_at_column();
+
+-- Function to update provider rating based on reviews
+CREATE OR REPLACE FUNCTION update_provider_rating()
+RETURNS TRIGGER AS $$
+BEGIN
+  UPDATE service_provider
+  SET rating = (
+    SELECT COALESCE(AVG(rating), 0)
+    FROM provider_review
+    WHERE provider_id = NEW.provider_id
+  )
+  WHERE id = NEW.provider_id;
+  
+  RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+-- Trigger to update rating when review is added/updated
+CREATE TRIGGER trigger_update_provider_rating
+  AFTER INSERT OR UPDATE ON provider_review
+  FOR EACH ROW
+  EXECUTE FUNCTION update_provider_rating();
+
+-- Function to set approved_at timestamp when status changes to approved
+CREATE OR REPLACE FUNCTION set_approved_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  IF NEW.status = 'approved' AND OLD.status != 'approved' THEN
+    NEW.approved_at = NOW();
+    NEW.verified = TRUE;
+  END IF;
+  RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+-- Trigger to set approved_at
+CREATE TRIGGER trigger_set_approved_at
+  BEFORE UPDATE ON service_provider
+  FOR EACH ROW
+  EXECUTE FUNCTION set_approved_at();
+
+-- ============================================================================
+-- 9. ROW LEVEL SECURITY (RLS) POLICIES
+-- ============================================================================
+
+-- Enable RLS on all tables
+ALTER TABLE service_provider ENABLE ROW LEVEL SECURITY;
+ALTER TABLE provider_category ENABLE ROW LEVEL SECURITY;
+ALTER TABLE custom_category_request ENABLE ROW LEVEL SECURITY;
+ALTER TABLE service_category ENABLE ROW LEVEL SECURITY;
+ALTER TABLE provider_review ENABLE ROW LEVEL SECURITY;
+ALTER TABLE provider_activity_log ENABLE ROW LEVEL SECURITY;
+
+-- Service Category Policies
+CREATE POLICY "Service categories are viewable by everyone"
+  ON service_category FOR SELECT
+  USING (true);
+
+-- Service Provider Policies
+CREATE POLICY "Approved providers are viewable by everyone"
+  ON service_provider FOR SELECT
+  USING (status = 'approved' AND verified = TRUE);
+
+CREATE POLICY "Users can create provider profiles"
+  ON service_provider FOR INSERT
+  WITH CHECK (true);
+
+-- If you have authentication, uncomment and modify:
+-- CREATE POLICY "Users can update own provider profile"
+--   ON service_provider FOR UPDATE
+--   USING (auth.uid() = user_id)
+--   WITH CHECK (auth.uid() = user_id);
+
+-- CREATE POLICY "Users can delete own provider profile"
+--   ON service_provider FOR DELETE
+--   USING (auth.uid() = user_id);
+
+-- Provider-Category Policies
+CREATE POLICY "Provider categories are viewable by everyone"
+  ON provider_category FOR SELECT
+  USING (true);
+
+CREATE POLICY "Provider categories can be inserted"
+  ON provider_category FOR INSERT
+  WITH CHECK (true);
+
+-- Custom Category Request Policies
+CREATE POLICY "Users can create custom category requests"
+  ON custom_category_request FOR INSERT
+  WITH CHECK (true);
+
+-- Provider Review Policies
+CREATE POLICY "Reviews are viewable by everyone"
+  ON provider_review FOR SELECT
+  USING (true);
+
+CREATE POLICY "Authenticated users can create reviews"
+  ON provider_review FOR INSERT
+  WITH CHECK (true);
+
+-- ============================================================================
+-- 10. VIEWS FOR COMMON QUERIES
+-- ============================================================================
+
+-- View: Approved providers with their categories
+CREATE OR REPLACE VIEW vw_approved_providers AS
+SELECT 
+  sp.id,
+  sp.provider_type,
+  sp.logo_url,
+  sp.name,
+  sp.description_persian,
+  sp.description_english,
+  sp.province,
+  sp.city,
+  sp.online_services,
+  sp.response_speed,
+  sp.telegram,
+  sp.signal,
+  sp.whatsapp,
+  sp.phone,
+  sp.email,
+  sp.created_at,
+  sp.approved_at,
+  array_agg(DISTINCT sc.name) FILTER (WHERE sc.name IS NOT NULL) as categories,
+  array_agg(DISTINCT sc.id) FILTER (WHERE sc.id IS NOT NULL) as category_ids
+FROM service_provider sp
+LEFT JOIN provider_category pc ON sp.id = pc.provider_id
+LEFT JOIN service_category sc ON pc.category_id = sc.id
+WHERE sp.status = 'approved' AND sp.verified = TRUE
+GROUP BY sp.id;
+
+-- View: Provider statistics
+CREATE OR REPLACE VIEW vw_provider_stats AS
+SELECT 
+  status,
+  provider_type,
+  COUNT(*) as count
+FROM service_provider
+GROUP BY status, provider_type;
+
+-- ============================================================================
+-- 11. COMMENTS FOR DOCUMENTATION
+-- ============================================================================
+
+COMMENT ON TABLE service_category IS 'List of service categories available for providers';
+COMMENT ON TABLE service_provider IS 'Stores information about service providers (individuals or organizations)';
+COMMENT ON TABLE provider_category IS 'Junction table linking providers to service categories (many-to-many)';
+COMMENT ON TABLE custom_category_request IS 'Custom category requests from providers for admin review';
+COMMENT ON TABLE provider_review IS 'User reviews and ratings for service providers';
+COMMENT ON TABLE provider_activity_log IS 'Activity tracking for providers (views, contacts, etc.)';
+
+COMMENT ON COLUMN service_provider.provider_type IS 'Type of provider: individual or organization';
+COMMENT ON COLUMN service_provider.status IS 'Approval status: pending, approved, rejected, or suspended';
+COMMENT ON COLUMN service_provider.social_link IS 'Social media profile link for verification purposes only (not displayed publicly)';
+COMMENT ON COLUMN service_provider.consent_direct_contact IS 'User consent for direct contact between parties';
+COMMENT ON COLUMN service_provider.consent_terms IS 'User acceptance of terms and conditions';
+
+-- ============================================================================
+-- 12. SAMPLE QUERIES
+-- ============================================================================
+
+-- Get all approved providers with categories
+-- SELECT * FROM vw_approved_providers;
+
+-- Get providers by category
+-- SELECT sp.* FROM service_provider sp
+-- JOIN provider_category pc ON sp.id = pc.provider_id
+-- JOIN service_category sc ON pc.category_id = sc.id
+-- WHERE sc.name = 'کمک پزشکی فوری' AND sp.status = 'approved';
+
+-- Get providers by province
+-- SELECT * FROM vw_approved_providers WHERE province = 'تهران';
+
+-- Approve a provider
+-- UPDATE service_provider 
+-- SET status = 'approved', verified = TRUE
+-- WHERE id = 'your-uuid-here';
+
+-- Get pending providers for review
+-- SELECT * FROM service_provider WHERE status = 'pending' ORDER BY created_at DESC;
+
+-- ============================================================================
+-- END OF SCHEMA
+-- ============================================================================
