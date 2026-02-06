@@ -27,14 +27,14 @@ export default function HomePage() {
             {/* SOS Button */}
             <div className="flex justify-center mb-4">
               <Link
-                href="/get-help"
-                className="relative w-45 h-45 rounded-full bg-linear-to-br from-red-500 to-red-600 shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300 group"
+                href="/search"
+                className="relative w-45 h-25 rounded-full bg-linear-to-br from-red-500 to-red-600 shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300 group"
               >
                 <div className="flex flex-col items-center justify-center h-full">
                   <span className="text-white text-2xl font-bold mb-2">
                     امداد فوری
                   </span>
-                  <span className="text-white text-6xl font-black tracking-wider">
+                  <span className="text-white text-4xl font-black tracking-wider">
                     SOS
                   </span>
                 </div>

@@ -10,24 +10,24 @@ export default function Header() {
           {/* Logo and Text */}
           <div className="flex-1">
             <h1 className="text-lg font-extrabold pr-2 text-gray-900 mb-2">
-              رهنورد، پلت‌فرم جامع برای یاری‌رسانی شهروندان ایرانی
+             شبکه کمک‌رسانی اضطراری رهنورد
             </h1>
             <p className="text-sm  pr-2 leading-relaxed bg-(--second) text-white p-2 rounded-sm">
-              این بخش برای نت‌های ادمین است
+             دسترسی سریع به داوطلبان معتبر
             </p>
           </div>
 
           {/* Logo Icon */}
-          <div className="shrink-0">
+            <div className="shrink-0 bg-(--second) p-2 rounded-full">
             <Image
               src="/images/logo.webp"
               alt="راه‌نورد لوگو"
-              width={96}
-              height={96}
+              width={72}
+              height={72}
               className="rounded-full shadow-lg border-2 border-white"
               priority
             />
-          </div>
+            </div>
         </div>
       </div>
     </div>
