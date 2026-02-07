@@ -42,7 +42,7 @@ Rahnavard is a humanitarian web application connecting citizens in need with ver
 - امداد فوری (Urgent Help)
 - داوطلبان کمک رسان (Aid Volunteers)
 - سازمان‌های امدادی (Aid Organizations)
-- کمک به نیازمندان (Help for Those in Need)
+- کمک به امدادجوان (Help for Those in Need)
 - شبکه داوطلبین (Volunteer Network)
 ```
 

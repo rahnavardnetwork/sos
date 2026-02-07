@@ -10,7 +10,7 @@ import Link from "next/link";
 
 export const metadata = generateBlogMetadata(
   "راهنمای کامل امنیت داوطلبان - نکات ضروری برای کمک‌رسانی امن",
-  "راهنمای جامع برای حفظ امنیت شخصی داوطلبان هنگام کمک به افراد نیازمند. آموزش نکات ایمنی، پروتکل‌های امنیتی و راهکارهای عملی.",
+  "راهنمای جامع برای حفظ امنیت شخصی داوطلبان هنگام کمک به افراد امدادجو. آموزش نکات ایمنی، پروتکل‌های امنیتی و راهکارهای عملی.",
   "volunteer-safety-guide",
   "2026-02-01",
   [
@@ -31,7 +31,7 @@ export default function VolunteerSafetyGuidePage() {
 
   const articleSchema = getArticleSchema({
     title: "راهنمای کامل امنیت داوطلبان",
-    description: "نکات ضروری برای حفظ امنیت شخصی هنگام کمک به افراد نیازمند",
+    description: "نکات ضروری برای حفظ امنیت شخصی هنگام کمک به افراد امدادجو",
     url: "/blog/volunteer-safety-guide",
     publishedTime: "2026-02-01",
     author: "تیم رهنورد",
@@ -45,7 +45,7 @@ export default function VolunteerSafetyGuidePage() {
     steps: [
       {
         name: "قبل از ملاقات احراز هویت کنید",
-        text: "همیشه هویت فرد نیازمند را از طریق پلتفرم تایید کنید",
+        text: "همیشه هویت فرد امدادجو را از طریق پلتفرم تایید کنید",
       },
       {
         name: "در مکان‌های عمومی ملاقات کنید",
@@ -110,7 +110,7 @@ export default function VolunteerSafetyGuidePage() {
               راهنمای کامل امنیت داوطلبان
             </h1>
             <p className="text-xl text-green-50 mb-6">
-              نکات ضروری برای حفظ امنیت شخصی هنگام کمک به افراد نیازمند
+              نکات ضروری برای حفظ امنیت شخصی هنگام کمک به افراد امدادجو
             </p>
             <div className="flex items-center gap-6 text-green-50">
               <span>زمان مطالعه: ۸ دقیقه</span>
@@ -126,7 +126,7 @@ export default function VolunteerSafetyGuidePage() {
             <p className="text-xl text-gray-700 leading-relaxed">
               کمک به دیگران یکی از شریف‌ترین کارهایی است که می‌توانید انجام
               دهید، اما امنیت شما در درجه اول اهمیت قرار دارد. این راهنما به شما
-              کمک می‌کند تا با اطمینان و امنیت بیشتری به افراد نیازمند کمک کنید.
+              کمک می‌کند تا با اطمینان و امنیت بیشتری به افراد امدادجو کمک کنید.
             </p>
           </section>
 
@@ -149,7 +149,7 @@ export default function VolunteerSafetyGuidePage() {
               {[
                 {
                   title: "احراز هویت دقیق",
-                  desc: "همیشه هویت فرد نیازمند را از طریق سیستم رهنورد تایید کنید",
+                  desc: "همیشه هویت فرد امدادجو را از طریق سیستم رهنورد تایید کنید",
                 },
                 {
                   title: "ملاقات در مکان عمومی",
@@ -195,7 +195,7 @@ export default function VolunteerSafetyGuidePage() {
                   بررسی پروفایل
                 </h3>
                 <p className="text-gray-700 mb-4">
-                  پروفایل فرد نیازمند را در رهنورد به دقت بررسی کنید:
+                  پروفایل فرد امدادجو را در رهنورد به دقت بررسی کنید:
                 </p>
                 <ul className="list-disc list-inside space-y-2 text-gray-600 mr-4">
                   <li>امتیازات و نظرات سایر داوطلبان را بخوانید</li>
@@ -235,7 +235,7 @@ export default function VolunteerSafetyGuidePage() {
                 </p>
                 <ul className="list-disc list-inside space-y-2 text-gray-600 mr-4">
                   <li>آدرس دقیق و زمان ملاقات</li>
-                  <li>اطلاعات فرد نیازمند (نام، شماره تماس)</li>
+                  <li>اطلاعات فرد امدادجو (نام، شماره تماس)</li>
                   <li>زمان تقریبی بازگشت</li>
                   <li>برنامه‌ریزی برای تماس بعد از ملاقات</li>
                 </ul>
@@ -303,10 +303,6 @@ export default function VolunteerSafetyGuidePage() {
                     در صورت احساس ناامنی، بلافاصله ملاقات را خاتمه دهید
                   </span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0 mt-1" />
-                  <span>تمام تعاملات را در پلتفرم رهنورد ثبت کنید</span>
-                </li>
               </ul>
             </div>
           </section>
@@ -333,34 +329,8 @@ export default function VolunteerSafetyGuidePage() {
                 </p>
                 <ul className="list-disc list-inside space-y-2 text-gray-600 mr-4">
                   <li>از طریق سیستم گزارش‌دهی درون پلتفرم</li>
-                  <li>تماس با خط پشتیبانی ۲۴ ساعته</li>
-                  <li>ایمیل به support@rahnavard.org</li>
+                  <li>تماس با خط پشتیبانی ۲۴ </li>
                 </ul>
-              </div>
-            </div>
-          </section>
-
-          {/* Emergency Contacts */}
-          <section className="mb-12">
-            <div className="bg-red-50 border-r-4 border-red-500 p-6 rounded-lg">
-              <h2 className="text-2xl font-bold mb-4 text-red-900">
-                شماره‌های اضطراری
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <p className="font-bold text-gray-800">پلیس</p>
-                  <p className="text-2xl font-bold text-red-600">۱۱۰</p>
-                </div>
-                <div>
-                  <p className="font-bold text-gray-800">اورژانس</p>
-                  <p className="text-2xl font-bold text-red-600">۱۱۵</p>
-                </div>
-                <div className="md:col-span-2">
-                  <p className="font-bold text-gray-800">پشتیبانی رهنورد</p>
-                  <p className="text-xl font-bold text-blue-600">
-                    ۰۲۱-۱۲۳۴۵۶۷۸
-                  </p>
-                </div>
               </div>
             </div>
           </section>
@@ -371,7 +341,7 @@ export default function VolunteerSafetyGuidePage() {
               <h2 className="text-2xl font-bold mb-4">نتیجه‌گیری</h2>
               <p className="text-lg text-green-50 leading-relaxed">
                 امنیت شما برای ما بسیار مهم است. با رعایت این نکات، می‌توانید با
-                اطمینان و آرامش خاطر به افراد نیازمند کمک کنید. به یاد داشته
+                اطمینان و آرامش خاطر به افراد امدادجو کمک کنید. به یاد داشته
                 باشید که رهنورد همیشه در کنار شماست و آماده پشتیبانی در هر زمان
                 می‌باشد.
               </p>

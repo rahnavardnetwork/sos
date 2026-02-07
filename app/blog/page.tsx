@@ -25,7 +25,7 @@ export default function BlogPage() {
         {
           slug: "volunteer-safety-guide",
           title: "راهنمای کامل امنیت داوطلبان",
-          excerpt: "نکات ضروری برای حفظ امنیت شخصی هنگام کمک به افراد نیازمند",
+          excerpt: "نکات ضروری برای حفظ امنیت شخصی هنگام کمک به افراد امدادجو",
           readTime: "۸ دقیقه",
         },
         {
@@ -136,7 +136,7 @@ export default function BlogPage() {
               منابع و مقالات آموزشی
             </h1>
             <p className="text-xl md:text-2xl max-w-3xl mx-auto">
-              راهنماهای جامع برای داوطلبان و افراد نیازمند
+              راهنماهای جامع برای داوطلبان و افراد امدادجو
             </p>
           </div>
         </div>

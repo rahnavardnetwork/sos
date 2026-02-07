@@ -13,7 +13,7 @@ export const SEO_KEYWORDS = {
       "امداد فوری",
       "داوطلبان کمک رسان",
       "سازمان‌های امدادی",
-      "کمک به نیازمندان",
+      "کمک به امدادجوان",
       "شبکه داوطلبین",
       "رهنورد",
     ],
@@ -26,7 +26,7 @@ export const SEO_KEYWORDS = {
     ],
   },
 
-  // AID SEEKER PERSONA - برای افراد نیازمند
+  // AID SEEKER PERSONA - برای افراد امدادجو
   aidSeeker: {
     highUrgency: {
       persian: [
@@ -83,7 +83,7 @@ export const SEO_KEYWORDS = {
     motivation: {
       persian: [
         "داوطلب شدن",
-        "کمک به نیازمندان",
+        "کمک به امدادجوان",
         "شبکه کمک رسانی",
         "همیار اجتماعی",
         "فعالیت داوطلبانه",

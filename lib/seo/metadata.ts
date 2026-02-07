@@ -11,13 +11,13 @@ export const SITE_CONFIG = {
   namePersian: "رهنورد",
   nameEnglish: "Rahnavard",
   tagline: {
-    persian: "شبکه کمک‌رسانی اضطراری - اتصال نیازمندان به داوطلبان معتبر",
+    persian: "شبکه کمک‌رسانی اضطراری - اتصال امدادجوان به داوطلبان معتبر",
     english:
       "Emergency Aid Network - Connecting People in Need with Verified Volunteers",
   },
   description: {
     persian:
-      "رهنورد یک پلتفرم امن و معتبر برای اتصال افراد نیازمند به داوطلبان و سازمان‌های کمک‌رسان احراز هویت شده در ایران است. دریافت کمک اضطراری در زمینه‌های پزشکی، حقوقی، مالی و روانی.",
+      "رهنورد یک پلتفرم امن و معتبر برای اتصال افراد امدادجو به داوطلبان و سازمان‌های کمک‌رسان احراز هویت شده در ایران است. دریافت کمک اضطراری در زمینه‌های پزشکی، حقوقی، مالی و روانی.",
     english:
       "Rahnavard is a secure and trusted platform connecting people in crisis with verified volunteers and aid organizations in Iran. Get emergency help for medical, legal, financial, and mental health needs.",
   },

@@ -386,7 +386,7 @@ export default function ProviderRegistrationForm({
         </div>
 
         {/* Main Content */}
-        <div className="max-w-2xl mx-auto px-4 py-6">
+        <div className="max-w-2xl mx-auto px-4 py-6 pb-24">
           {/* Error Messages */}
           {errors.length > 0 && (
             <div className="mb-6 bg-red-50 border border-red-200 rounded-xl p-4 animate-shake">
