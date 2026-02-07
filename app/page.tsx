@@ -21,7 +21,7 @@ export default function HomePage() {
           {/* Hero Section with SOS Button */}
           <div className="text-center mb-4" dir="rtl">
             <h1 className="text-2xl md:text-4xl font-extrabold text-gray-800 mt-6 mb-4">
-              ما شما را به همه متصل میکنیم
+              ما شما را به هم متصل میکنیم
             </h1>
 
             {/* SOS Button */}
@@ -45,11 +45,11 @@ export default function HomePage() {
 
             {/* Description Text */}
             <p
-              className="text-gray-700 text-justify text-sm md:text-lg leading-relaxed max-w-3xl mx-auto mb-4 px-4"
+              className="text-gray-700 text-center text-sm md:text-lg leading-relaxed max-w-3xl mx-auto mb-4 px-4"
               dir="rtl"
             >
-              رهنورد، با هدف ایجاد پل ارتباطی بین افرادی که نیاز به کمک دارند و
-              داوطلبانی که می‌خواهند کمک کنند، ایجاد شده است.
+              رهنورد،  پل ارتباطی بین شهروندان
+             
             </p>
           </div>
 

@@ -32,7 +32,7 @@ export default function LayoutClient({
       {showHeaderAndNavbar && <Navbar />}
 
       {/* محتوای صفحه */}
-      <main className={showHeaderAndNavbar ? "pb-32" : ""}>{children}</main>
+      <main className={showHeaderAndNavbar ? "pb-48" : ""}>{children}</main>
     </>
   );
 }
